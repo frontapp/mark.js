@@ -1,6 +1,6 @@
 {
-  "name": "mark.js",
-  "version": "8.4.0",
+  "name": "front-markjs",
+  "version": "8.4.0-1",
   "keywords": [
     "mark.js",
     "markjs",
@@ -53,6 +53,5 @@
     "karma-sauce-launcher": "^1.0.0",
     "karma-spec-reporter": "^0.0.26",
     "phantomjs-prebuilt": "^2.1.5"
-  },
-  "private": true
+  }
 }

@@ -1,9 +1,10 @@
-/*!***************************************************
- * mark.js v8.4.0
- * https://github.com/julmot/mark.js
- * Copyright (c) 2014–2016, Julian Motz
- * Released under the MIT license https://git.io/vwTVl
- *****************************************************/
+/**
+ * Marks search terms in DOM elements
+ * @example
+ * new Mark(document.querySelector(".context")).mark("lorem ipsum");
+ * @example
+ * new Mark(document.querySelector(".context")).markRegExp(/lorem/gmi);
+ */
 
 "use strict";
 
@@ -11,7 +12,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -36,7 +37,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         _createClass(Mark, [{
             key: "log",
             value: function log(msg) {
-                var level = arguments.length <= 1 || arguments[1] === undefined ? "debug" : arguments[1];
+                var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "debug";
 
                 var log = this.opt.log;
                 if (!this.opt.debug) {
@@ -94,14 +95,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     if (/[(|)]/.test(nextChar) || nextChar === "") {
                         return val;
                     } else {
-                        return val + "\u0000";
+                        return val + "\0";
                     }
                 });
             }
         }, {
             key: "createIgnoreJoinersRegExp",
             value: function createIgnoreJoinersRegExp(str) {
-                return str.split("\u0000").join("[\\u00ad|\\u200b|\\u200c|\\u200d]?");
+                return str.split("\0").join("[\\u00ad|\\u200b|\\u200c|\\u200d]?");
             }
         }, {
             key: "createDiacriticsRegExp",
@@ -473,8 +474,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     var DOMIterator = function () {
         function DOMIterator(ctx) {
-            var iframes = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-            var exclude = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+            var iframes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+            var exclude = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
             _classCallCheck(this, DOMIterator);
 
@@ -513,7 +514,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: "getIframeContents",
             value: function getIframeContents(ifr, successFn) {
-                var errorFn = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+                var errorFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
 
                 var doc = void 0;
                 try {
@@ -597,7 +598,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function forEachIframe(ctx, filter, each) {
                 var _this12 = this;
 
-                var end = arguments.length <= 3 || arguments[3] === undefined ? function () {} : arguments[3];
+                var end = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
                 var ifr = ctx.querySelectorAll("iframe"),
                     open = ifr.length,
@@ -748,7 +749,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function forEachNode(whatToShow, each, filter) {
                 var _this15 = this;
 
-                var done = arguments.length <= 3 || arguments[3] === undefined ? function () {} : arguments[3];
+                var done = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
                 var contexts = this.getContexts();
                 var open = contexts.length;
